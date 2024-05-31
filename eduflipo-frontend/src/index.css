@@ -1,0 +1,14 @@
+main {
+  background-color: #eef2f6;
+  flex-grow: 1;
+  margin: 10px 30px;
+  border-radius: 13px;
+  padding: 10px 50px;
+}
+
+@media (max-width: 768px) {
+  main {
+    margin: 10px;
+    padding: 10px 0px;
+  }
+}
