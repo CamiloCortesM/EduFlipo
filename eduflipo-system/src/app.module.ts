@@ -17,7 +17,7 @@ import { ClassesModule } from './classes/classes.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-      // synchronize: true,
+      synchronize: true,
     }),
     TeachersModule,
     CommonModule,
