@@ -19,7 +19,7 @@ import { Logo } from '../specific/header/Logo';
 import useDrawer from '../../hooks/useDrawer';
 
 const Header: React.FC = () => {
-  const { drawerOpen, toggleDrawer } = useDrawer();
+  const { drawerOpen, toggleDrawer } = useDrawer(); // Custom hook to manage drawer state
 
   return (
     <div>

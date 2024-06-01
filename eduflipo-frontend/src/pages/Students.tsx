@@ -1,4 +1,3 @@
-// src/pages/Students.tsx
 import React, { useContext } from 'react';
 import { AddOutlined } from '@mui/icons-material';
 import { Box, Button, Typography, Grid, Skeleton } from '@mui/material';
@@ -27,6 +26,7 @@ export const Students: React.FC = () => {
 
   const handleDelete = (id: number) => deleteStudent(id);
 
+  // Define grid columns with edit and delete functionality
   const columns: GridColDef[] = createColumns({
     onEdit: (data) => handleOpenModal('Edit Student', data),
     onDelete: handleDelete,

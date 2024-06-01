@@ -1,4 +1,3 @@
-// src/utils/createColumns.tsx
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -10,6 +9,7 @@ interface ColumnConfig {
   onDelete: (id: number) => void;
 }
 
+// Function to create an array of column definitions
 export const createColumns = ({ onEdit, onDelete }: ColumnConfig): GridColDef[] => [
   {
     field: 'firstName',

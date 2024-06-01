@@ -1,6 +1,9 @@
 import { IClass, IStudent } from '../../interfaces/entities';
 import { ClassState } from './';
 
+/**
+ * Action types for the Class reducer.
+ */
 type ClassActionType =
   | { type: 'Class - Load'; payload: IClass[] }
   | { type: 'Class - Create'; payload: IClass }

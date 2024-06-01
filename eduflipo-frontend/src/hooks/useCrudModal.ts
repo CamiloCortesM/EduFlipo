@@ -1,4 +1,3 @@
-// src/hooks/useCrudModal.ts
 import { useState } from 'react';
 
 export interface ModalData {

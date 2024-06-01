@@ -1,12 +1,14 @@
 import React from 'react';
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+
 import { Grid } from '@mui/material';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 
 interface CustomDataGridProps {
   rows: any[];
   columns: GridColDef[];
 }
 
+// CustomDataGrid component renders a DataGrid with the provided rows and columns
 const CustomDataGrid: React.FC<CustomDataGridProps> = ({ rows, columns }) => {
   return (
     <Grid container className="fadeIn">

@@ -1,4 +1,3 @@
-// src/pages/Teachers.tsx
 import React, { useContext } from 'react';
 import { AddOutlined } from '@mui/icons-material';
 import { Box, Button, Typography, Grid, Skeleton } from '@mui/material';
@@ -13,6 +12,8 @@ import { createColumns } from '../utils/createColumns';
 
 export const Teachers: React.FC = () => {
   const { isLoaded, teachers, deleteTeacher, createTeacher, editTeacher } = useContext(TeacherContext);
+
+  // Use useCrudModal hook to manage the modal state for CRUD operations
   const { openModal, modalTitle, modalData, handleOpenModal, handleCloseModal } = useCrudModal<TeacherData>();
 
   const handleSave = (data: ITeacher) => {
@@ -27,6 +28,7 @@ export const Teachers: React.FC = () => {
 
   const handleDelete = (id: number) => deleteTeacher(id);
 
+  // Create grid columns with edit and delete functionality
   const columns: GridColDef[] = createColumns({
     onEdit: (data) => handleOpenModal('Edit Teacher', data),
     onDelete: handleDelete,

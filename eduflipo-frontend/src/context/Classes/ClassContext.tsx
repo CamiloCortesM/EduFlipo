@@ -1,6 +1,9 @@
 import { createContext } from 'react';
 import { IClass, IStudent } from '../../interfaces/entities';
 
+/**
+ * Interface for the Class Context properties and methods.
+ */
 interface ContextProps {
   isLoaded: boolean;
   classes: IClass[];

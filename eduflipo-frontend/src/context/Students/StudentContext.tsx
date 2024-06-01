@@ -5,7 +5,7 @@ interface ContextProps {
   isLoaded: boolean;
   students: IStudent[];
 
-    //Methods
+  //Methods
   createStudent: (student: IStudent) => void;
   editStudent: (student: IStudent) => void;
   deleteStudent: (id: number) => void;

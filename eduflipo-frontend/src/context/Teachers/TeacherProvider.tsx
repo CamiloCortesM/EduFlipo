@@ -30,6 +30,10 @@ export const TeacherProvider: FC<PropsWithChildren> = ({ children }) => {
     fetchTeachers();
   }, []);
 
+  /**
+   * Create a new teacher and update the state.
+   * @param teacher - The new teacher to be created.
+   */
   const createTeacher = async (teacher: ITeacher) => {
     try {
       const response = await api.post(`/teachers`, teacher);
@@ -40,6 +44,10 @@ export const TeacherProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  /**
+   * Edit an existing teacher and update the state.
+   * @param teacher - The updated teacher object.
+   */
   const editTeacher = async (teacher: ITeacher) => {
     const { id, ...teacherData } = teacher;
     try {
@@ -50,6 +58,10 @@ export const TeacherProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+   /**
+   * Delete a teacher and update the state.
+   * @param id - ID of the teacher to be deleted.
+   */
   const deleteTeacher = async (id: number) => {
     try {
       await api.delete(`/teachers/${id}`);

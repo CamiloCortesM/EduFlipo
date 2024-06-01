@@ -3,12 +3,18 @@ import { ClassContext, classReducer } from './';
 import { IClass, IStudent } from '../../interfaces/entities';
 import api from '../../api';
 
+/**
+ * Initial state interface for the Class context.
+ */
 export interface ClassState {
   isLoaded: boolean;
   classes: IClass[];
   studentsInClass: IStudent[];
 }
 
+/**
+ * Initial state values for the Class context.
+ */
 const Class_INITIAL_STATE: ClassState = {
   isLoaded: false,
   classes: [],
@@ -18,10 +24,18 @@ const Class_INITIAL_STATE: ClassState = {
 export const ClassProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(classReducer, Class_INITIAL_STATE);
 
+   /**
+   * Loads the classes into the state.
+   * @param classes - Array of classes to be loaded.
+   */
   const loadClasses = (classes: IClass[]) => {
     dispatch({ type: 'Class - Load', payload: classes });
   };
 
+   /**
+   * Creates a new class.
+   * @param newClass - The class to be created.
+   */
   const createClass = async (newClass: IClass) => {
     try {
       const response = await api.post(`/classes`, newClass);
@@ -40,6 +54,10 @@ export const ClassProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+   /**
+   * Updates an existing class.
+   * @param updatedClass - The class with updated information.
+   */
   const updateClass = async (updatedClass: IClass) => {
     console.log({ updatedClass });
     const { id, ...classData } = updatedClass;
@@ -51,6 +69,10 @@ export const ClassProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  /**
+   * Deletes a class by its ID.
+   * @param classId - The ID of the class to be deleted.
+   */
   const deleteClass = async (classId: number) => {
     try {
       await api.delete(`/classes/${classId}`);
@@ -60,6 +82,11 @@ export const ClassProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+    /**
+   * Assigns a teacher to a class.
+   * @param classId - The ID of the class.
+   * @param teacherId - The ID of the teacher to be assigned.
+   */
   const assignTeacher = async (classId: number, teacherId: number) => {
     try {
       const teacherAssigned = await api.post(
@@ -82,6 +109,11 @@ export const ClassProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+   /**
+   * Assigns students to a class.
+   * @param classId - The ID of the class.
+   * @param studentIds - Array of student IDs to be assigned.
+   */
   const assignStudents = async (id: number, studentIds: number[]) => {
     try {
       const studentsData = await api.post(`/classes/${id}/assign-students`, {
@@ -103,6 +135,10 @@ export const ClassProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+    /**
+   * Fetches and views all students of a class.
+   * @param classId - The ID of the class.
+   */
   const viewAllStudentsOfClass = async (id: number) => {
     try {
       const response = await api.get(`/classes/${id}/students`);
