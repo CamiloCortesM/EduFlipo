@@ -30,6 +30,10 @@ export const router = createBrowserRouter([
         path: '*',
         element: <Navigate to="/students" replace />,
       },
+      {
+        path: '/',
+        element: <Navigate to="/students" replace />,
+      },
     ],
   },
 ]);
