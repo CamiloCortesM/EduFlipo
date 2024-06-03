@@ -75,7 +75,7 @@ export const Teachers: React.FC = () => {
         open={openModal}
         handleClose={handleCloseModal}
         handleSave={handleSave}
-        initialData={modalData || undefined}
+        dataForm={modalData || undefined}
         title={modalTitle}
       />
     </div>

@@ -5,12 +5,10 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  Select,
-  MenuItem,
-  InputLabel,
   SelectChangeEvent,
 } from '@mui/material';
 import { TeacherContext } from '../../../context/Teachers';
+import { SelectInput } from '../../ui/SelectInput';
 
 interface AssignTeacherModalProps {
   open: boolean;
@@ -59,20 +57,13 @@ export const AssignTeacherModal: React.FC<AssignTeacherModalProps> = ({
           width: { md: 400, xs: '100%' },
         }}
       >
-        <InputLabel id="teacher-label">Select Teacher</InputLabel>
-        <Select
-          labelId="teacher-label"
-          id="teacher-select"
-          value={selectedTeacher}
-          onChange={handleChange}
-          fullWidth
-        >
-          {teachers.map((teacher) => (
-            <MenuItem key={teacher.id} value={teacher.id}>
-              {teacher.firstName + ' ' + teacher.lastName}
-            </MenuItem>
-          ))}
-        </Select>
+        <SelectInput
+          selectedEntity={selectedTeacher}
+          handleChange={handleChange}
+          entities={teachers}
+          text="teacher"
+          title="Select Teacher"
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

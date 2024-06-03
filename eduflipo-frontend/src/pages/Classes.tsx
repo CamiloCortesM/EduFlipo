@@ -10,7 +10,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { AddStudentsModal } from '../components/specific/class/AddStudentsModal';
 import { AssignTeacherModal } from '../components/specific/class/AssignTeacherModal';
-import { ClassData, ClassModal } from '../components/specific/class/ClassModal';
+import { ClassModal } from '../components/specific/class/ClassModal';
 import StudentsModal from '../components/specific/class/StudentsModal';
 import CustomDataGrid from '../components/common/CustomDataGrid';
 import { SqueletonPage } from '../components/common/SqueletonPage';
@@ -19,6 +19,7 @@ import { useCrudModal } from '../hooks/useCrudModal';
 import { useAssignTeacher } from '../hooks/useAssignTeacher';
 import { useAddStudents } from '../hooks/useAddStudents';
 import { useStudentsModal } from '../hooks/useStudentsModal';
+import { IClass } from '../interfaces/entities';
 
 export const Classes: FC = () => {
   const { isLoaded, classes, deleteClass, createClass, updateClass } =
@@ -38,7 +39,7 @@ export const Classes: FC = () => {
     modalData,
     modalTitle,
     openModal,
-  } = useCrudModal<ClassData>();
+  } = useCrudModal<IClass>();
 
   const {
     handleCloseAddStudentsModal,
@@ -54,7 +55,7 @@ export const Classes: FC = () => {
     open: openStudentsModal,
   } = useStudentsModal();
 
-  const handleSave = (data: ClassData) => {
+  const handleSave = (data: IClass) => {
     console.log(data);
     if (data.id) {
       updateClass(data);
@@ -211,7 +212,7 @@ export const Classes: FC = () => {
         open={openModal}
         handleClose={handleCloseModal}
         handleSave={handleSave}
-        initialData={modalData || undefined}
+        dataForm={modalData || undefined}
         title={modalTitle}
       />
       <StudentsModal

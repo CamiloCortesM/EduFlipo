@@ -67,13 +67,13 @@ export const Students: FC = () => {
           Students
         </Typography>
       </header>
-      <ButtonCreate handleOpenModal={handleCloseModal} title="Create Student" />
+      <ButtonCreate handleOpenModal={handleOpenModal} title="Create Student" />
       <CustomDataGrid columns={columns} rows={rows} />
       <StudentModal
         open={openModal}
         handleClose={handleCloseModal}
         handleSave={handleSave}
-        initialData={modalData || undefined}
+        dataForm={modalData || undefined}
         title={modalTitle}
       />
     </div>

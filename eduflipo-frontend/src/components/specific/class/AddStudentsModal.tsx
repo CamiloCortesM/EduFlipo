@@ -5,13 +5,12 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  Select,
-  MenuItem,
-  InputLabel,
   Chip,
   Box,
+  SelectChangeEvent,
 } from '@mui/material';
 import { StudentContext } from '../../../context/Students';
+import { SelectInput } from '../../ui/SelectInput';
 
 interface AddStudentsModalProps {
   open: boolean;
@@ -46,6 +45,10 @@ export const AddStudentsModal: React.FC<AddStudentsModalProps> = ({
     setSelectedStudents(selectedStudents.filter((id) => id !== studentId));
   };
 
+  const handleChange = (event: SelectChangeEvent<number>) => {
+    setSelectedStudent(event.target.value as number);
+  };
+
   const handleSubmit = () => {
     handleSave(selectedStudents);
   };
@@ -58,20 +61,13 @@ export const AddStudentsModal: React.FC<AddStudentsModalProps> = ({
           width: { md: 600, xs: 300 },
         }}
       >
-        <InputLabel id="student-label">Select Student</InputLabel>
-        <Select
-          labelId="student-label"
-          id="student-select"
-          value={selectedStudent}
-          onChange={(event) => setSelectedStudent(event.target.value as number)}
-          fullWidth
-        >
-          {students.map((student) => (
-            <MenuItem key={student.id} value={student.id}>
-              {student.firstName + ' ' + student.lastName}
-            </MenuItem>
-          ))}
-        </Select>
+        <SelectInput
+          selectedEntity={selectedStudent}
+          handleChange={handleChange}
+          entities={students}
+          text="student"
+          title="Select Student"
+        />
         <Button
           onClick={handleAddStudent}
           color="primary"
