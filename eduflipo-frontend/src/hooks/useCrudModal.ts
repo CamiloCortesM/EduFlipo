@@ -1,10 +1,7 @@
 import { useState } from 'react';
+import { IClass, IPerson } from '../interfaces/entities';
 
-export interface ModalData {
-  id?: number;
-}
-
-export const useCrudModal = <T extends ModalData>() => {
+export const useCrudModal = <T extends IPerson | IClass>() => {
   const [openModal, setOpenModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalData, setModalData] = useState<T | null>(null);
