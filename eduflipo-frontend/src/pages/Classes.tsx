@@ -1,14 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { AddOutlined, Visibility } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  Typography,
-  Grid,
-  Skeleton,
-  IconButton,
-  Chip,
-} from '@mui/material';
+import { useContext, FC } from 'react';
+import { Visibility } from '@mui/icons-material';
+import { Typography, IconButton, Chip } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { ClassContext } from '../context/Classes';
 
@@ -21,40 +13,46 @@ import { AssignTeacherModal } from '../components/specific/class/AssignTeacherMo
 import { ClassData, ClassModal } from '../components/specific/class/ClassModal';
 import StudentsModal from '../components/specific/class/StudentsModal';
 import CustomDataGrid from '../components/common/CustomDataGrid';
+import { SqueletonPage } from '../components/common/SqueletonPage';
+import { ButtonCreate } from '../components/ui/ButtonCreate';
+import { useCrudModal } from '../hooks/useCrudModal';
+import { useAssignTeacher } from '../hooks/useAssignTeacher';
+import { useAddStudents } from '../hooks/useAddStudents';
+import { useStudentsModal } from '../hooks/useStudentsModal';
 
-export const Classes: React.FC = () => {
+export const Classes: FC = () => {
+  const { isLoaded, classes, deleteClass, createClass, updateClass } =
+    useContext(ClassContext);
+
   const {
-    isLoaded,
-    classes,
-    deleteClass,
-    viewAllStudentsOfClass,
-    assignTeacher,
-    createClass,
-    updateClass,
-    assignStudents,
-  } = useContext(ClassContext);
-  const [openModal, setOpenModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalData, setModalData] = useState<ClassData | null>(null);
+    handleCloseAssignTeacherModal,
+    handleOpenAssignTeacherModal,
+    handleSaveAssignTeacherModal,
+    openAssignTeacherModal,
+    selectedClassId,
+  } = useAssignTeacher();
 
-  const [openStudentsModal, setOpenStudentsModal] = useState(false);
-  const [openAddStudentsModal, setOpenAddStudentsModal] = useState(false);
-  const [className, setClassName] = useState('');
+  const {
+    handleCloseModal,
+    handleOpenModal,
+    modalData,
+    modalTitle,
+    openModal,
+  } = useCrudModal<ClassData>();
 
-  const [openAssignTeacherModal, setOpenAssignTeacherModal] = useState(false);
-  const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
-  const [classIdActive, setClassIdActive] = useState<number | null>(null);
+  const {
+    handleCloseAddStudentsModal,
+    handleOpenAddStudentsModal,
+    handleSaveStudents,
+    openAddStudentsModal,
+  } = useAddStudents();
 
-  const handleOpenModal = (title: string, data: ClassData | null) => {
-    setModalTitle(title);
-    setModalData(data);
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setModalData(null);
-  };
+  const {
+    handleCloseStudentsModal,
+    handleOpenStudentsModal,
+    className,
+    open: openStudentsModal,
+  } = useStudentsModal();
 
   const handleSave = (data: ClassData) => {
     console.log(data);
@@ -71,51 +69,6 @@ export const Classes: React.FC = () => {
 
   const handleDelete = (id: number) => {
     deleteClass(id);
-  };
-
-  const handleOpenStudentsModal = (classId: number, Name: string) => {
-    viewAllStudentsOfClass(classId);
-    setClassName(Name);
-    setOpenStudentsModal(true);
-  };
-
-  const handleCloseStudentsModal = () => {
-    setOpenStudentsModal(false);
-  };
-
-  const handleOpenAssignTeacherModal = (teacherId: number, classId: number) => {
-    setClassIdActive(classId);
-    setSelectedClassId(teacherId);
-    setOpenAssignTeacherModal(true);
-  };
-
-  const handleCloseAssignTeacherModal = () => {
-    setOpenAssignTeacherModal(false);
-    setClassIdActive(null);
-  };
-
-  const handleSaveAssignTeacherModal = (teacherId: number | '') => {
-    if (!classIdActive || !teacherId) return;
-    assignTeacher(classIdActive, teacherId);
-    setClassIdActive(null);
-    handleCloseAssignTeacherModal();
-  };
-
-  const handleOpenAddStudentsModal = (classId: number) => {
-    setClassIdActive(classId);
-    setOpenAddStudentsModal(true);
-  };
-
-  const handleCloseAddStudentsModal = () => {
-    setOpenAddStudentsModal(false);
-  };
-
-  const handleSaveStudents = (studentIds: number[]) => {
-    if (!classIdActive || !studentIds) return;
-    assignStudents(classIdActive, studentIds);
-    console.log('Saved students:', studentIds);
-    setClassIdActive(null);
-    handleCloseAddStudentsModal();
   };
 
   const columns: GridColDef[] = [
@@ -226,52 +179,7 @@ export const Classes: React.FC = () => {
     },
   ];
 
-  if (!isLoaded)
-    return (
-      <div>
-        <header>
-          <Typography
-            variant="h1"
-            sx={{
-              fontSize: '2.5rem',
-              fontWeight: 'bold',
-              marginTop: '1rem',
-              textAlign: 'center',
-            }}
-          >
-            Classes
-          </Typography>
-        </header>
-        <Box display="flex" justifyContent="end" sx={{ mb: 2 }}>
-          <Box display="flex" justifyContent="end">
-            <Skeleton
-              sx={{ bgcolor: 'grey.300' }}
-              variant="rounded"
-              width={160}
-              height={38}
-            />
-          </Box>
-        </Box>
-        <Grid container className="fadeIn">
-          <Grid
-            item
-            xs={12}
-            sx={{ height: 400, width: '100%', backgroundColor: 'white' }}
-          >
-            <Grid container>
-              <Grid item xs={12} sx={{ height: 400, width: '100%' }}>
-                <Skeleton
-                  sx={{ bgcolor: 'grey.300' }}
-                  variant="rectangular"
-                  width="100%"
-                  height={400}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
-    );
+  if (!isLoaded) return <SqueletonPage title="Classes" />;
 
   const rows = classes.map((cls) => ({
     id: cls.id,
@@ -296,16 +204,7 @@ export const Classes: React.FC = () => {
           Classes
         </Typography>
       </header>
-      <Box display="flex" justifyContent="end" sx={{ mb: 2 }}>
-        <Button
-          startIcon={<AddOutlined />}
-          color="secondary"
-          variant="contained"
-          onClick={() => handleOpenModal('Create Class', null)}
-        >
-          Create Class
-        </Button>
-      </Box>
+      <ButtonCreate handleOpenModal={handleOpenModal} title="Create class" />
       {/* datagrid */}
       <CustomDataGrid columns={columns} rows={rows} />
       <ClassModal
